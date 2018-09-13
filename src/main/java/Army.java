@@ -5,14 +5,15 @@ public class Army {
     private Random generator = null;
     private final int N = 5;
     private Warrior[] army = null;
+    private String name;
 
-    public Army() {
+    public Army(String name) {
 
         generator = new Random();
         army = new Warrior[N];
 
         for (int i=0; i<N; i++) {
-            army[i] = new Warrior(90 + generator.nextInt(21), 5 + generator.nextInt(11), "War"+(i+1));
+            army[i] = new Warrior(90 + generator.nextInt(21), 5 + generator.nextInt(11), "War"+(i+1) + name);
         }
     }
 
@@ -80,6 +81,10 @@ public class Army {
                 result = army[i];
         }
         return result;
+    }
+
+    public Warrior[] getArmy() {
+        return army;
     }
 
     public Warrior getWarrior(Strategy strategy) {

@@ -30,4 +30,40 @@ public class Arena {
             System.out.println();
         }
     }
+
+    public void Fight(ArmyStrategy armyStrategy) {
+        switch (armyStrategy) {
+            case COMMAND: {
+                while (army1.isAlive() && army2.isAlive()) {
+
+                    for (Warrior w: army1.getArmy()) {
+                        if (w.isAlive())
+                            w.hitEnemy(army2.getWarrior());
+                    }
+
+                    if (!army2.isAlive()) {
+                        System.out.println("Army 1 WIN");
+                        break;
+                    } else {
+                        for (Warrior w: army2.getArmy()) {
+                            if (w.isAlive())
+                                w.hitEnemy(army1.getWarrior(Strategy.WEAKEST));
+                        }
+                    }
+
+                    if (!army1.isAlive()) {
+                        System.out.println("Army 2 WIN");
+                    }
+
+                    System.out.println("\t Army 1");
+                    army1.info();
+                    System.out.println("\n\t Army 2");
+                    army2.info();
+                    System.out.println();
+
+                }
+            } break;
+            default: Fight();
+        }
+    }
 }
