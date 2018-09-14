@@ -37,7 +37,6 @@ public class Arena {
                 while (army1.isAlive() && army2.isAlive()) {
 
                     for (Warrior w: army1.getArmy()) {
-                        if (w.isAlive())
                             w.hitEnemy(army2.getWarrior());
                     }
 
@@ -46,7 +45,6 @@ public class Arena {
                         break;
                     } else {
                         for (Warrior w: army2.getArmy()) {
-                            if (w.isAlive())
                                 w.hitEnemy(army1.getWarrior(Strategy.WEAKEST));
                         }
                     }

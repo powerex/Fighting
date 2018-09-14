@@ -1,89 +1,69 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Army {
 
     private Random generator = null;
     private final int N = 5;
-    private Warrior[] army = null;
+    private ArrayList<Warrior> army;
     private String name;
 
     public Army(String name) {
 
         generator = new Random();
-        army = new Warrior[N];
+        army = new ArrayList<Warrior>();
 
         for (int i=0; i<N; i++) {
-            army[i] = new Warrior(90 + generator.nextInt(21), 5 + generator.nextInt(11), "War"+(i+1) + name);
+            army.add(
+                    new Warrior(90 + generator.nextInt(21),
+                            5 + generator.nextInt(11),
+                            "War"+(i+1) + name,
+                            this));
         }
     }
 
     public boolean isAlive() {
-        for (Warrior w:army) {
-            if (w.isAlive())
-                return true;
-        }
-        return false;
+        return !army.isEmpty();
     }
 
     private Warrior getRandomWarrior() {
-        Warrior result = null;
-        while (result == null) {
-            int i = generator.nextInt(N);
-            if (army[i].isAlive())
-                result = army[i];
-        }
-        return result;
+        return army.get( generator.nextInt(army.size()) );
     }
 
     private Warrior getStrongestWarrior() {
-        int i = 0;
-        while (!army[i].isAlive()) i++;
-        Warrior result = army[i];
-        i++;
-        for (;i<N;i++) {
-            if (army[i].isAlive() && (army[i].getDamage() > result.getDamage()))
-                result = army[i];
-        }
-        return result;
+        Warrior w = army.get(0);
+        for (Warrior t: army)
+            if (t.getDamage() > w.getDamage())
+                w = t;
+        return w;
     }
 
     private Warrior getWeakestWarrior() {
-        int i = 0;
-        while (!army[i].isAlive()) i++;
-        Warrior result = army[i];
-        i++;
-        for (;i<N;i++) {
-            if (army[i].isAlive() && (army[i].getDamage() < result.getDamage()))
-                result = army[i];
-        }
-        return result;
+        Warrior w = army.get(0);
+        for (Warrior t: army)
+            if (t.getDamage() < w.getDamage())
+                w = t;
+        return w;
     }
 
     private Warrior getHealthyWarrior() {
-        int i = 0;
-        while (!army[i].isAlive()) i++;
-        Warrior result = army[i];
-        i++;
-        for (;i<N;i++) {
-            if (army[i].isAlive() && (army[i].getHp() > result.getHp()))
-                result = army[i];
-        }
-        return result;
+        Warrior w = army.get(0);
+        for (Warrior t: army)
+            if (t.getHp() > w.getHp())
+                w = t;
+        return w;
     }
 
     private Warrior getSicklyWarrior() {
-        int i = 0;
-        while (!army[i].isAlive()) i++;
-        Warrior result = army[i];
-        i++;
-        for (;i<N;i++) {
-            if (army[i].isAlive() && (army[i].getHp() < result.getHp()))
-                result = army[i];
-        }
-        return result;
+        Warrior w = army.get(0);
+        for (Warrior t: army)
+            if (t.getHp() < w.getHp())
+                w = t;
+        return w;
     }
 
-    public Warrior[] getArmy() {
+    public List<Warrior> getArmy() {
         return army;
     }
 
@@ -103,7 +83,6 @@ public class Army {
 
     public void info() {
         for (Warrior w: army) {
-            if (w.isAlive())
             System.out.println(w);
         }
     }
